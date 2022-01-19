@@ -1,14 +1,16 @@
 import {ShippingContainer} from './container';
 import {Transporter} from './transporter';
+import {LightContainer} from './light';
 
 export class Ship implements Transporter {
 
-    containers:ShippingContainer[];
+    containers:ShippingContainer[] = [];
 
     constructor(public maxWeight:number) {
     }
 
     addContainer(container:ShippingContainer):void{
+        this.containers.push(container);
     }
 
     getTotalWeight():number {
@@ -19,8 +21,9 @@ export class Ship implements Transporter {
 
         let result:number = 0
 
-        this.containers.forEach(container => {
-            result += container.cargoWeight;
+        this.containers.forEach(contain => {
+
+            result += contain.cargoWeight;
         });
 
         return result;
@@ -34,3 +37,9 @@ export class Ship implements Transporter {
         }
     }
 }
+
+const shipA:Ship = new Ship(6000);
+const lightA:LightContainer = new LightContainer('Shang Hai', 2000);
+
+shipA.addContainer(lightA);
+console.log(shipA.containers);

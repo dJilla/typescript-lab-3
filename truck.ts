@@ -3,15 +3,17 @@ import {Transporter} from './transporter';
 
 export class Truck implements Transporter {
 
-    container:ShippingContainer | null = null;
+    container:ShippingContainer|null = null;
 
     constructor(public maxWeight:number) {
     }
 
-    addContainer(container:ShippingContainer):void {
+    addContainer(container:ShippingContainer):void{
+        this.container = container;
     }
 
     getTotalWeight():number {
+
         if (this.container === null) {
             return 0;
         } else {
@@ -25,5 +27,14 @@ export class Truck implements Transporter {
         } else {
             return false;
         }
+    }
+}
+
+const containerA:ShippingContainer = {
+    destination: 'Anchorage',
+    cargoWeight: 400,
+
+    getGrossWeight():number {
+        return this.cargoWeight;
     }
 }

@@ -6,13 +6,13 @@ export interface ShippingContainer {
     getGrossWeight():number;
 }
 
-const container1:ShippingContainer = {
-    destination: 'Tokyo',
-    cargoWeight: 250,
+const containerA:ShippingContainer = {
+    destination: 'Shang Hai',
+    cargoWeight: 2000,
 
-    getGrossWeight: function (): number {
+    getGrossWeight():number {
         return this.cargoWeight;
     }
 }
 
-console.log(container1.getGrossWeight());
+console.log(containerA);
