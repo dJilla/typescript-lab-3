@@ -151,5 +151,57 @@ describe('findOverweightTransporters', () => {
 });
 
 describe('isSafeToAddContainer', () => {
+    it('should return true for an empty ship with empty container', () => {
+        const ship1:Ship = new Ship(5000);
+        const emptyLight:LightContainer = new LightContainer('Nowhere', 0);
+        expect(isSafeToAddContainer(ship1, emptyLight)).toEqual(true);
+    });
 
+    it('should return true for an empty ship with LightContainer not exceeding maxWeight', () => {
+        const ship1:Ship = new Ship(5000);
+        const light1:LightContainer = new LightContainer('New York', 2500);
+        expect(isSafeToAddContainer(ship1, light1)).toEqual(true);
+    });
+
+    it('should return true for an empty ship with HeavyContainer not exceeding maxWeight', () => {
+        const ship1:Ship = new Ship(5000);
+        const heavy1:HeavyContainer = new HeavyContainer(1500, 'Miami', 3000);
+        expect(isSafeToAddContainer(ship1, heavy1)).toEqual(true);
+    });
+
+    it('should return false for an empty ship and LightContainer exceeding maxWeight', () => {
+        const ship2:Ship = new Ship(2400);
+        const light1:LightContainer = new LightContainer('New York', 2500);
+        expect(isSafeToAddContainer(ship2, light1)).toEqual(false);
+    });
+
+    it('should return false for an empty ship and HeavyContainer exceeding maxWeight', () => {
+        const ship2:Ship = new Ship(2400);
+        const heavy1:HeavyContainer = new HeavyContainer(1500, 'Miami', 3000);
+        expect(isSafeToAddContainer(ship2, heavy1)).toEqual(false);
+    });
+
+    it('should return true for an empty ship and container = maxWeight', () => {
+        const ship3:Ship = new Ship(2500);
+        const heavy2:HeavyContainer = new HeavyContainer(1000, 'New York', 1500);
+        expect(isSafeToAddContainer(ship3, heavy2)).toEqual(true);
+    });
+
+    it('should return true for a loaded ship and a container that can be added', () => {
+        const ship1:Ship = new Ship(5000);
+        const light1:LightContainer = new LightContainer('New York', 2500);
+        const light2:LightContainer = new LightContainer('New York', 1500);
+        ship1.addContainer(light1);
+        expect(isSafeToAddContainer(ship1, light2)).toEqual(true);
+    });
+
+    it('should return false for a loaded ship and a container that cannot be added', () => {
+        const ship1:Ship = new Ship(5000);
+        const light1:LightContainer = new LightContainer('New York', 2500);
+        const light2:LightContainer = new LightContainer('New York', 1500);
+        const light3:LightContainer = new LightContainer('Boston', 1200);
+        ship1.addContainer(light1);
+        ship1.addContainer(light2);
+        expect(isSafeToAddContainer(ship1, light3)).toEqual(false);
+    });
 });
